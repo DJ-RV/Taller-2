@@ -18,11 +18,13 @@ class Tablero {
     static Tablero& getInstance();
     void mostrarTablero();
     char determinarTurno();
-    char ganadorFinal();
-    bool isEmpate();
+    int revisarTablero();
+    bool movimientosDisponibles();
     bool realizarMovimiento(int row, int col, char jugador);
     int getTurnos();
     void setTurnos(int turnos);
+    std::vector<int> mejorMovimiento();
+    int minimax(int nivel, bool maximizar);
 };
 
 #endif
