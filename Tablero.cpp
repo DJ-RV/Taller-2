@@ -14,9 +14,15 @@ Tablero& Tablero::getInstance() {
 }
 
 void Tablero::mostrarTablero() {
+    int cont = 1;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            std::cout << tablero[i][j];
+            if (tablero[i][j] != 'X' && tablero[i][j] != 'O') {
+                std::cout << cont << " ";
+            } else {
+                std::cout << tablero[i][j] << " ";
+            }
+            cont++;
         }
         std::cout << std::endl;
     }
@@ -89,11 +95,10 @@ std::vector<int> Tablero::mejorMovimiento() {
                 int valor = minimax(0, false, -10000, 10000);
                 tablero[i][j] = '-';
 
-                if (valor >= mejorValor) {
+                if (valor > mejorValor) {
                     mejorMovimiento[0] = i;
                     mejorMovimiento[1] = j;
                     mejorValor = valor;
-                    std::cout << "Mejor movimiento es: " << i << j << "con valor: " << valor << std::endl;
                 }
             }
         }
@@ -104,8 +109,8 @@ std::vector<int> Tablero::mejorMovimiento() {
 int Tablero::minimax(int nivel, bool maximizar, int alfa, int beta) {
     int valor = 0;
     int puntaje = revisarTablero();
-    if (puntaje == 10) return puntaje;
-    if (puntaje == -10) return puntaje;
+    if (puntaje == 10) return puntaje - nivel;
+    if (puntaje == -10) return puntaje + nivel;
     if (!movimientosDisponibles()) return 0;
 
     if (maximizar) {
@@ -119,7 +124,7 @@ int Tablero::minimax(int nivel, bool maximizar, int alfa, int beta) {
                     mejor = std::max(mejor, valor);
                     alfa = std::max(alfa, valor);
                     if (beta <= alfa) {
-                        break;
+                        return mejor;
                     }
                 }
             }
@@ -136,7 +141,7 @@ int Tablero::minimax(int nivel, bool maximizar, int alfa, int beta) {
                     mejor = std::min(mejor, valor);
                     beta = std::min(beta, valor);
                     if (beta <= alfa) {
-                        break;
+                        return mejor;
                     }
                 }
             }
@@ -144,6 +149,33 @@ int Tablero::minimax(int nivel, bool maximizar, int alfa, int beta) {
 
         return mejor;
     }
+}
+
+std::vector<int> Tablero::convertirMovimiento(int input) {
+    std::vector<int> movimientos(2, -1);
+
+    if (input < 1 || input > 9) {
+        std::cout << "Error: El movimiento debe estar entre 1 y 9." << std::endl;
+        return movimientos;
+    }
+
+    movimientos[0] = (input - 1) / 3;
+    movimientos[1] = (input - 1) % 3;
+
+    return movimientos;
+}
+
+int Tablero::movimientoInverso(std::vector<int> movimiento) {
+    int cont = 1;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (i == movimiento[0] && j == movimiento[1]) {
+                return cont;
+            }
+            cont++;
+        }
+    }
+    return 0;
 }
 
 Tablero::~Tablero() {}

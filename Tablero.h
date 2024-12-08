@@ -25,6 +25,8 @@ class Tablero {
     void setTurnos(int turnos);
     std::vector<int> mejorMovimiento();
     int minimax(int nivel, bool maximizar, int alfa, int beta);
+    std::vector<int> convertirMovimiento(int input);
+    int movimientoInverso(std::vector<int> movimiento);
 };
 
 #endif
