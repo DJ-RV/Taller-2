@@ -24,7 +24,7 @@ class Tablero {
     int getTurnos();
     void setTurnos(int turnos);
     std::vector<int> mejorMovimiento();
-    int minimax(int nivel, bool maximizar);
+    int minimax(int nivel, bool maximizar, int alfa, int beta);
 };
 
 #endif

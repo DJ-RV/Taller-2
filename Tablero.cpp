@@ -29,17 +29,17 @@ char Tablero::determinarTurno() {
 int Tablero::revisarTablero() {
     for (int i = 0; i < 3; i++) {
         if (tablero[i][0] != '-' && tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2]) {
-            return (tablero[i][0] == 'X') ? 10 : -10;
+            return (tablero[i][0] == 'O') ? 10 : -10;
         }
         if (tablero[0][i] != '-' && tablero[0][i] == tablero[1][i] && tablero[1][i] == tablero[2][i]) {
-            return (tablero[0][i] == 'X') ? 10 : -10;
+            return (tablero[0][i] == 'O') ? 10 : -10;
         }
     }
     if (tablero[0][0] != '-' && tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2]) {
-        return (tablero[0][0] == 'X') ? 10 : -10;
+        return (tablero[0][0] == 'O') ? 10 : -10;
     }
     if (tablero[0][2] != '-' && tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0]) {
-        return (tablero[0][2] == 'X') ? 10 : -10;
+        return (tablero[0][2] == 'O') ? 10 : -10;
     }
     return 0;
 }
@@ -85,14 +85,15 @@ std::vector<int> Tablero::mejorMovimiento() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             if (tablero[i][j] == '-') {
-                tablero[i][j] = 'X';
-                int valor = minimax(0, false);
+                tablero[i][j] = 'O';
+                int valor = minimax(0, false, -10000, 10000);
                 tablero[i][j] = '-';
 
-                if (valor > mejorValor) {
+                if (valor >= mejorValor) {
                     mejorMovimiento[0] = i;
                     mejorMovimiento[1] = j;
                     mejorValor = valor;
+                    std::cout << "Mejor movimiento es: " << i << j << "con valor: " << valor << std::endl;
                 }
             }
         }
@@ -100,11 +101,11 @@ std::vector<int> Tablero::mejorMovimiento() {
     return mejorMovimiento;
 }
 
-int Tablero::minimax(int nivel, bool maximizar) {
+int Tablero::minimax(int nivel, bool maximizar, int alfa, int beta) {
     int valor = 0;
     int puntaje = revisarTablero();
-    if (puntaje == 10) return puntaje - nivel;
-    if (puntaje == -10) return puntaje + nivel;
+    if (puntaje == 10) return puntaje;
+    if (puntaje == -10) return puntaje;
     if (!movimientosDisponibles()) return 0;
 
     if (maximizar) {
@@ -112,10 +113,14 @@ int Tablero::minimax(int nivel, bool maximizar) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (tablero[i][j] == '-') {
-                    tablero[i][j] = 'X';
-                    valor = minimax(nivel + 1, false);
+                    tablero[i][j] = 'O';
+                    valor = minimax(nivel + 1, false, alfa, beta);
                     tablero[i][j] = '-';
                     mejor = std::max(mejor, valor);
+                    alfa = std::max(alfa, valor);
+                    if (beta <= alfa) {
+                        break;
+                    }
                 }
             }
         }
@@ -125,13 +130,18 @@ int Tablero::minimax(int nivel, bool maximizar) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (tablero[i][j] == '-') {
-                    tablero[i][j] = 'O';
-                    valor = minimax(nivel + 1, true);
+                    tablero[i][j] = 'X';
+                    valor = minimax(nivel + 1, true, alfa, beta);
                     tablero[i][j] = '-';
                     mejor = std::min(mejor, valor);
+                    beta = std::min(beta, valor);
+                    if (beta <= alfa) {
+                        break;
+                    }
                 }
             }
         }
+
         return mejor;
     }
 }
