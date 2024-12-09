@@ -30,11 +30,20 @@ con la complejidad del juego.
 
 ## Que es Minimax y la poda Alfa-Beta
 
-El Minimax es un algoritmo que toma a los dos jugadores de un juego como Min y Max, respectivamente o viceversa.
-Trabaja comparando todos los posibles movimientos que puedan suceder y asignandoles un valor dependiendo de
-los factores involucrados en esos movimientos.
-EJ: substraer puntaje al valor de un movimiento si este termina en derrota o si tarda muchos turnos en ganar.
-adicionar puntaje al valor de un movimiento si este este lleva a la victoria en pocos turnos.
+El algoritmo Minimax es una técnica utilizada en juegos de dos jugadores para determinar el mejor movimiento posible, 
+asumiendo que ambos jugadores juegan de manera óptima. Funciona evaluando todas las posibles 
+jugadas futuras y eligiendo la que maximiza la ganancia del jugador actual, mientras 
+minimiza la ganancia del oponente. Se basa en la idea de que un jugador tratará de maximizar 
+su propio beneficio (maximizar), mientras que el oponente intentará minimizar el beneficio del jugador (minimizar). 
+Este proceso se repite hasta llegar a una condición terminal del juego (como victoria, derrota o empate).
+
+La poda alfa-beta es una optimización del algoritmo Minimax que mejora su eficiencia al eliminar 
+ramas del árbol de búsqueda que no es necesario explorar. 
+Funciona manteniendo dos valores, alfa (el mejor valor encontrado hasta el momento para el jugador maximizador) y 
+beta (el mejor valor para el jugador minimizador). 
+Si en cualquier punto un nodo tiene un valor peor que el de un nodo ya evaluado, se poda esa rama, 
+evitando la exploración innecesaria y reduciendo el número de nodos evaluados. 
+Esto acelera significativamente el proceso sin afectar el resultado final.
 
 ## Diagrama de Árbol
 
