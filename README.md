@@ -5,6 +5,10 @@ Diego Javier Ravanal Vanzi - RUT: 22.228.372-2 - Paralelo C2 - Correo Institucio
 
 ## Instrucciónes de Ejecución
 
+Para la compilación del ejecutable, utilizar:
+g++ main.cpp Tablero.cpp -o juego
+./juego
+
 Al iniciar el programa, se le dejara elegir la posision de una ficha entre el 1 y el 9
 en un tablero numerado tal que:
 1 2 3
@@ -38,6 +42,16 @@ El diagrama está adjunto en el repositorio junto con el resto del código.
 
 ## Complejidad Temporal
 
+con b como el número de casillas vacías en el tablero en cada turno, y d como la profundidad 
+del árbol de decisiones, es decir, cuántos niveles de decisiones se exploran:
+
 ### Sin poda Alfa-Beta
 
+La complejidad temporal de Minimax para el juego del gato es 
+sin poda Alfa-Beta es O(b^d)
+
 ### Con poda Alfa-Beta
+
+La comprejidad temporal de Minimax para el juego del gato,
+si se utiliza el metodo de poda alfa-beta, será de O(b^d/2)
+
